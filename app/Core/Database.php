@@ -13,23 +13,14 @@ use PDOStatement;
 final class Database
 {
     private static ?Database $instance = null;
-    private PDO $pdo;
+    private ?PDO $pdo = null;
 
     private function __construct()
     {
-        $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=%s', DB_HOST, defined('DB_PORT') ? DB_PORT : '3306', DB_NAME, DB_CHARSET);
-        try {
-            $this->pdo = new PDO($dsn, DB_USER, DB_PASS, [
-                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES   => false,
-            ]);
-        } catch (PDOException $e) {
-            if (APP_ENV === 'development') {
-                die('DB connection failed: ' . $e->getMessage());
-            }
-            die('Service temporarily unavailable.');
-        }
+        // Connection is established lazily on first pdo() call so that a single
+        // shared connection is reused per request (avoids hitting the host's
+        // max_user_connections limit, which would otherwise flip the site to
+        // the static fallback intermittently).
     }
 
     public static function instance(): self
@@ -37,15 +28,41 @@ final class Database
         return self::$instance ??= new self();
     }
 
+    /** Lazily open (once) and return the shared PDO connection. Retries once on transient failure. */
     public function pdo(): PDO
     {
-        return $this->pdo;
+        if ($this->pdo instanceof PDO) {
+            return $this->pdo;
+        }
+
+        $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=%s', DB_HOST, defined('DB_PORT') ? DB_PORT : '3306', DB_NAME, DB_CHARSET);
+        $options = [
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES   => false,
+            PDO::ATTR_TIMEOUT            => 5,
+        ];
+
+        $attempt = 0;
+        while (true) {
+            try {
+                $this->pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+                return $this->pdo;
+            } catch (PDOException $e) {
+                // Retry once after a short pause to ride over a transient
+                // connection-limit spike on shared hosting.
+                if (++$attempt >= 2) {
+                    throw $e;
+                }
+                usleep(250000); // 250ms
+            }
+        }
     }
 
     /** Run a prepared statement and return the PDOStatement. */
     public function run(string $sql, array $params = []): PDOStatement
     {
-        $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->pdo()->prepare($sql);
         $stmt->execute($params);
         return $stmt;
     }
@@ -71,10 +88,10 @@ final class Database
 
     public function lastId(): string
     {
-        return $this->pdo->lastInsertId();
+        return $this->pdo()->lastInsertId();
     }
 
-    public function beginTransaction(): void { $this->pdo->beginTransaction(); }
-    public function commit(): void { $this->pdo->commit(); }
-    public function rollBack(): void { if ($this->pdo->inTransaction()) $this->pdo->rollBack(); }
+    public function beginTransaction(): void { $this->pdo()->beginTransaction(); }
+    public function commit(): void { $this->pdo()->commit(); }
+    public function rollBack(): void { if ($this->pdo()->inTransaction()) $this->pdo()->rollBack(); }
 }

@@ -155,8 +155,10 @@ if (!function_exists('cms_installed')) {
         static $ok = null;
         if ($ok !== null) return $ok;
         try {
-            $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=%s', DB_HOST, defined('DB_PORT') ? DB_PORT : '3306', DB_NAME, DB_CHARSET);
-            $pdo = new PDO($dsn, DB_USER, DB_PASS, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_TIMEOUT => 3]);
+            // Reuse the shared singleton connection (one connection per request)
+            // instead of opening a second PDO — this avoids exhausting the host's
+            // max_user_connections limit, which caused intermittent fallbacks.
+            $pdo = \App\Core\Database::instance()->pdo();
             $pdo->query('SELECT 1 FROM `' . DB_PREFIX . 'settings` LIMIT 1');
             return $ok = true;
         } catch (\Throwable $e) {
