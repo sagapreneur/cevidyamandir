@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="C. E. Vidya Mandir">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#efeafe"/><stop offset="1" stop-color="#dcd3fb"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#g)"/>
+  <g fill="#5b3aee" opacity="0.9" transform="translate(400 250)">
+    <path d="M0-70 120-28 0 14-120-28Z"/>
+    <path d="M-70 2 0 30 70 2v46c0 20-140 20-140 0Z" opacity="0.75"/>
+    <rect x="116" y="-28" width="6" height="60" rx="3"/>
+    <circle cx="119" cy="40" r="9"/>
+  </g>
+  <text x="400" y="400" text-anchor="middle" font-family="Poppins, Arial, sans-serif" font-size="34" font-weight="700" fill="#241442">C. E. Vidya Mandir</text>
+  <text x="400" y="440" text-anchor="middle" font-family="Poppins, Arial, sans-serif" font-size="22" fill="#6b7280">Image coming soon</text>
+</svg>

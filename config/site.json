@@ -1,0 +1,53 @@
+{
+  "name": "Channawar's e Vidya Mandir",
+  "shortName": "CEVM",
+  "tagline": "Dedicated to Excellence",
+  "description": "Channawar's e Vidya Mandir is a CBSE-affiliated school in Wardha offering classes from Nursery to Class X, with a safe, joyful and value-driven learning environment.",
+  "url": "https://www.cevidyamandir.com",
+  "locale": "en_IN",
+  "themeColor": "#1c3f94",
+  "logo": {
+    "src": "assets/images/logo.jpg",
+    "alt": "Channawar's e Vidya Mandir logo",
+    "width": 176,
+    "height": 44
+  },
+  "ogImage": "assets/images/logo.jpg",
+  "contact": {
+    "email": "cevidyamandir@gmail.com",
+    "phone": "+91 8551061975",
+    "phoneHref": "+918551061975",
+    "hours": "Monday – Saturday: 8:00 AM – 4:00 PM",
+    "map": "https://www.google.com/maps?q=Channawar%27s+e+Vidya+Mandir%2C+Arvi+Road%2C+Wardha%2C+Maharashtra+442001&output=embed"
+  },
+  "address": {
+    "street": "Arvi Road, near Vyanktesh Polytechnic",
+    "city": "Wardha",
+    "region": "Maharashtra",
+    "postalCode": "442001",
+    "country": "IN",
+    "full": "Arvi Road, near Vyanktesh Polytechnic, Wardha, Maharashtra 442001"
+  },
+  "topbar": {
+    "promoLead": "Admissions Open for Session 2026-27",
+    "promoStrong": "Nursery to Class IX",
+    "ctaHref": "admissions.html"
+  },
+  "cta": {
+    "label": "Apply Now",
+    "href": "admissions.html"
+  },
+  "social": [
+    { "label": "Instagram", "href": "https://www.instagram.com/cevidyamandir/", "icon": "instagram" },
+    { "label": "Facebook", "href": "https://www.facebook.com/cevmwardha/", "icon": "facebook" },
+    { "label": "YouTube", "href": "https://www.youtube.com/@channawarsevidyamandir7398", "icon": "youtube" }
+  ],
+  "legal": [
+    { "label": "Terms & Conditions", "href": "#" },
+    { "label": "Privacy Policy", "href": "#" }
+  ],
+  "footerBlurb": "A CBSE school in Wardha nurturing every child from Nursery to Class X with care, values and academic excellence.",
+  "newsletterBlurb": "Subscribe for admission updates, events and circulars.",
+  "copyrightYear": "2026",
+  "foundingYear": "2011"
+}

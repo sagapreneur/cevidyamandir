@@ -1,0 +1,87 @@
+{
+  "primary": [
+    { "label": "Home", "href": "index.html", "key": "home" },
+    {
+      "label": "About", "href": "about.html", "key": "about",
+      "children": [
+        { "label": "About Us", "href": "about.html" },
+        { "label": "President's Desk", "href": "president-desk.html" },
+        { "label": "Principal's Desk", "href": "principal-desk.html" }
+      ]
+    },
+    {
+      "label": "Academics", "href": "programs.html", "key": "academics",
+      "mega": [
+        {
+          "title": "Learning",
+          "links": [
+            { "label": "Programs", "href": "programs.html" },
+            { "label": "Curriculum", "href": "curriculum.html" }
+          ]
+        },
+        {
+          "title": "Planning",
+          "links": [
+            { "label": "Academic Calendar", "href": "academic-calendar.html" },
+            { "label": "Fees Structure", "href": "fees-structure.html" }
+          ]
+        }
+      ],
+      "mobileChildren": [
+        { "label": "Programs", "href": "programs.html" },
+        { "label": "Curriculum", "href": "curriculum.html" },
+        { "label": "Academic Calendar", "href": "academic-calendar.html" },
+        { "label": "Fees Structure", "href": "fees-structure.html" }
+      ]
+    },
+    { "label": "Admissions", "href": "admissions.html", "key": "admissions" },
+    {
+      "label": "Media", "href": "gallery.html", "key": "media",
+      "children": [
+        { "label": "Notices & Circulars", "href": "notices.html" },
+        { "label": "Gallery", "href": "gallery.html" },
+        { "label": "Downloads", "href": "downloads.html" },
+        { "label": "Reviews", "href": "reviews.html" }
+      ]
+    },
+    {
+      "label": "Get Involved", "href": "engage.html", "key": "engage",
+      "children": [
+        { "label": "Engage With Us", "href": "engage.html" },
+        { "label": "Career Opportunities", "href": "careers.html" },
+        { "label": "Intern & Volunteer", "href": "intern-volunteer.html" },
+        { "label": "Support Us", "href": "support-us.html" }
+      ]
+    },
+    {
+      "label": "Contact", "href": "contact.html", "key": "contact",
+      "children": [
+        { "label": "Contact Us", "href": "contact.html" },
+        { "label": "Locate Us", "href": "locate-us.html" },
+        { "label": "Bona Fide Request", "href": "bonafide.html" }
+      ]
+    }
+  ],
+  "footerColumns": [
+    {
+      "title": "Quick Links",
+      "links": [
+        { "label": "About School", "href": "about.html" },
+        { "label": "Admissions", "href": "admissions.html" },
+        { "label": "Notices", "href": "notices.html" },
+        { "label": "Gallery", "href": "gallery.html" },
+        { "label": "Contact Us", "href": "contact.html" }
+      ]
+    },
+    {
+      "title": "Academics",
+      "links": [
+        { "label": "Programs", "href": "programs.html" },
+        { "label": "Curriculum", "href": "curriculum.html" },
+        { "label": "Calendar", "href": "academic-calendar.html" },
+        { "label": "Fees Structure", "href": "fees-structure.html" },
+        { "label": "Downloads", "href": "downloads.html" }
+      ]
+    }
+  ]
+}

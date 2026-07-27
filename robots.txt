@@ -1,0 +1,10 @@
+# C. E. Vidya Mandir — robots.txt
+User-agent: *
+Allow: /
+
+# Block build/source artifacts if ever uploaded
+Disallow: /src/
+Disallow: /config/
+Disallow: /scripts/
+
+Sitemap: https://www.cevidyamandir.com/sitemap.xml

@@ -1,0 +1,58 @@
+# ============================================================
+# C. E. Vidya Mandir — Apache/LiteSpeed config (Hostinger)
+# Routes page requests to the PHP CMS front controller.
+# ============================================================
+
+DirectoryIndex index.php index.html
+Options -Indexes
+
+# Custom error page (static fallback)
+ErrorDocument 404 /404.html
+
+# ---- Routing ----
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Never rewrite the admin area (handled by admin/.htaccess)
+  RewriteRule ^admin(/.*)?$ - [L]
+
+  # Route legacy/pretty ".html" pages to the CMS
+  RewriteRule ^([a-z0-9\-]+)\.html$ index.php?page=$1 [L,QSA]
+
+  # Home
+  RewriteRule ^$ index.php?page=index [L,QSA]
+
+  # Clean slugs (only when not a real file/dir, e.g. /submit, /about)
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^([a-z0-9\-]+)/?$ index.php?page=$1 [L,QSA]
+</IfModule>
+
+# ---- Gzip / compression ----
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+
+# ---- Browser caching ----
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 6 months"
+  ExpiresByType image/png "access plus 6 months"
+  ExpiresByType image/svg+xml "access plus 6 months"
+  ExpiresByType image/webp "access plus 6 months"
+  ExpiresByType text/html "access plus 1 hour"
+</IfModule>
+
+# ---- Security headers ----
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ---- Protect sensitive files ----
+<FilesMatch "(composer\.(json|lock)|package(-lock)?\.json|\.env|\.gitignore)$">
+  Require all denied
+</FilesMatch>

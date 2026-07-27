@@ -1,0 +1,56 @@
+# ============================================================
+# Secrets / environment (never commit real credentials)
+# ============================================================
+.env
+.env.*
+!.env.example
+
+# ============================================================
+# Transient storage (regenerated at runtime)
+# ============================================================
+storage/cache/*
+storage/logs/*
+storage/backups/*
+!storage/cache/.gitkeep
+!storage/logs/.gitkeep
+!storage/backups/.gitkeep
+
+# ============================================================
+# One-off DB import file (import once, then it is not needed in the repo).
+# Keep committed by default; uncomment to exclude if you prefer.
+# ============================================================
+# database.sql
+
+# ============================================================
+# Root-level source/original media (duplicates already copied into
+# storage/uploads and assets/). Kept out of the repo to stay clean.
+# ============================================================
+/*.png
+/*.jpg
+/*.jpeg
+/*.svg
+/*.webp
+/Gallery/
+/Academic Annual Calendar 2026-27/
+
+# ============================================================
+# Temp / debug scripts (root-anchored so app partials like
+# app/Views/site/pages/_leader.php are NOT ignored)
+# ============================================================
+/_*.php
+*.tmp
+
+# ============================================================
+# OS / editor cruft
+# ============================================================
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.log
+.vscode/
+.idea/
+
+# ============================================================
+# Dependencies (project uses a custom PSR-4 autoloader; no vendor)
+# ============================================================
+node_modules/

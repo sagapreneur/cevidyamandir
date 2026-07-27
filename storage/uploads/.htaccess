@@ -1,0 +1,23 @@
+# Uploads are publicly readable, but never executable.
+<IfModule mod_authz_core.c>
+  Require all granted
+</IfModule>
+<IfModule !mod_authz_core.c>
+  Order allow,deny
+  Allow from all
+</IfModule>
+
+# Block execution of any server-side scripts in the uploads folder
+<FilesMatch "\.(php|phtml|phar|php[0-9]|pl|py|cgi|sh|asp|aspx)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+Options -ExecCGI
+<IfModule mod_php.c>
+  php_flag engine off
+</IfModule>
