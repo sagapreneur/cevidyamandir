@@ -15,6 +15,11 @@ use App\Core\Session;
 use App\Core\Csrf;
 use App\Controllers\Site\PageController;
 
+// Dynamic CMS output must never be cached by the browser or the edge CDN,
+// otherwise a stale copy (e.g. the static fallback) can get pinned for up to an hour.
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
+
 // If the CMS database isn't ready yet, serve the static build as a fallback.
 if (!cms_installed()) {
     $slug = preg_replace('/[^a-z0-9\-]/', '', (string) ($_GET['page'] ?? 'index')) ?: 'index';

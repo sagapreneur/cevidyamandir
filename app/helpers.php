@@ -154,14 +154,31 @@ if (!function_exists('cms_installed')) {
     {
         static $ok = null;
         if ($ok !== null) return $ok;
+
+        // Once we have confirmed the CMS is installed we remember it with a flag
+        // file for a short window. This (1) avoids a DB round-trip on every request
+        // and (2) — crucially — prevents a transient DB hiccup under load from
+        // regressing the whole site to the outdated static fallback.
+        $flag = STORAGE_PATH . '/cache/.cms_ready';
+        if (is_file($flag) && (time() - (int) @filemtime($flag)) < 300) {
+            return $ok = true;
+        }
+
         try {
             // Reuse the shared singleton connection (one connection per request)
             // instead of opening a second PDO — this avoids exhausting the host's
             // max_user_connections limit, which caused intermittent fallbacks.
             $pdo = \App\Core\Database::instance()->pdo();
             $pdo->query('SELECT 1 FROM `' . DB_PREFIX . 'settings` LIMIT 1');
+            @touch($flag);
             return $ok = true;
         } catch (\Throwable $e) {
+            // If the CMS was known-installed recently, trust that rather than
+            // showing the demo: let the request proceed (the front controller
+            // handles any query error gracefully) instead of serving stale content.
+            if (is_file($flag)) {
+                return $ok = true;
+            }
             return $ok = false;
         }
     }

@@ -42,7 +42,9 @@ ErrorDocument 404 /404.html
   ExpiresByType image/png "access plus 6 months"
   ExpiresByType image/svg+xml "access plus 6 months"
   ExpiresByType image/webp "access plus 6 months"
-  ExpiresByType text/html "access plus 1 hour"
+  # HTML is dynamic (CMS) — must never be cached by the browser or the edge CDN,
+  # otherwise a stale copy (e.g. the static fallback) can get pinned for up to an hour.
+  ExpiresByType text/html "access plus 0 seconds"
 </IfModule>
 
 # ---- Security headers ----
@@ -50,6 +52,12 @@ ErrorDocument 404 /404.html
   Header set X-Content-Type-Options "nosniff"
   Header set X-Frame-Options "SAMEORIGIN"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Force dynamic HTML pages to bypass browser/CDN caching.
+  <FilesMatch "\.(php|html)$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+  </FilesMatch>
 </IfModule>
 
 # ---- Protect sensitive files ----

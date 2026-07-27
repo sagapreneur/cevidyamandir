@@ -43,18 +43,21 @@ final class Database
             PDO::ATTR_TIMEOUT            => 5,
         ];
 
+        // Retry with backoff to ride over transient max_user_connections spikes
+        // on shared hosting (connections free within milliseconds, so a short
+        // wait almost always recovers instead of dropping to the static fallback).
+        $delaysMs = [100, 200, 400, 800, 1200];
         $attempt = 0;
         while (true) {
             try {
                 $this->pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
                 return $this->pdo;
             } catch (PDOException $e) {
-                // Retry once after a short pause to ride over a transient
-                // connection-limit spike on shared hosting.
-                if (++$attempt >= 2) {
+                if ($attempt >= count($delaysMs)) {
                     throw $e;
                 }
-                usleep(250000); // 250ms
+                usleep($delaysMs[$attempt] * 1000);
+                $attempt++;
             }
         }
     }
