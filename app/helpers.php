@@ -49,6 +49,7 @@ if (!function_exists('upload_url')) {
     {
         if (!$file) return '';
         if (preg_match('#^https?://#', $file)) return $file;
+        $file = preg_replace('#^/?(storage/)?uploads/?#i', '', $file);
         return UPLOAD_URL . '/' . ltrim($file, '/');
     }
 }

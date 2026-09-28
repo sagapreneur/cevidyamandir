@@ -6,6 +6,7 @@
   "url": "https://www.cevidyamandir.com",
   "locale": "en_IN",
   "themeColor": "#1c3f94",
+  "twitterHandle": "@cevidyamandir",
   "logo": {
     "src": "assets/images/logo.jpg",
     "alt": "Channawar's e Vidya Mandir logo",
@@ -17,21 +18,25 @@
     "email": "cevidyamandir@gmail.com",
     "phone": "+91 8551061975",
     "phoneHref": "+918551061975",
-    "hours": "Monday – Saturday: 8:00 AM – 4:00 PM",
-    "map": "https://www.google.com/maps?q=Channawar%27s+e+Vidya+Mandir%2C+Arvi+Road%2C+Wardha%2C+Maharashtra+442001&output=embed"
+    "hours": "Mon–Sat: 8:00 AM – 4:00 PM"
   },
   "address": {
-    "street": "Arvi Road, near Vyanktesh Polytechnic",
+    "street": "Near Vyankatesh Polytechnic, Arvi Road, Yelakeli",
     "city": "Wardha",
     "region": "Maharashtra",
     "postalCode": "442001",
     "country": "IN",
-    "full": "Arvi Road, near Vyanktesh Polytechnic, Wardha, Maharashtra 442001"
+    "full": "Near Vyankatesh Polytechnic, Arvi Road, Yelakeli, Wardha, Maharashtra 442001"
   },
   "topbar": {
     "promoLead": "Admissions Open for Session 2026-27",
-    "promoStrong": "Nursery to Class IX",
-    "ctaHref": "admissions.html"
+    "promoStrong": "Nursery to Class X",
+    "ctaLabel": "Apply Now",
+    "ctaHref": "admissions.html",
+    "liveChatLabel": "Contact Us",
+    "liveChatHref": "contact.html",
+    "loginLabel": "CMS Login",
+    "loginHref": "admin/"
   },
   "cta": {
     "label": "Apply Now",
@@ -43,8 +48,8 @@
     { "label": "YouTube", "href": "https://www.youtube.com/@channawarsevidyamandir7398", "icon": "youtube" }
   ],
   "legal": [
-    { "label": "Terms & Conditions", "href": "#" },
-    { "label": "Privacy Policy", "href": "#" }
+    { "label": "Terms & Conditions", "href": "contact.html" },
+    { "label": "Privacy Policy", "href": "contact.html" }
   ],
   "footerBlurb": "A CBSE school in Wardha nurturing every child from Nursery to Class X with care, values and academic excellence.",
   "newsletterBlurb": "Subscribe for admission updates, events and circulars.",

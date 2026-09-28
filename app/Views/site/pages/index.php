@@ -347,7 +347,11 @@ $pic = static fn($v, $f) => ($v !== '' && $v !== null) ? (preg_match('#^https?:/
           $mo = $n['publish_date'] ? date('M', strtotime($n['publish_date'])) : ''; ?>
         <article class="overflow-hidden rounded-lg bg-white shadow-card ring-1 ring-border transition-all duration-instant hover:-translate-y-1.5 hover:shadow-card-hover" data-reveal>
           <div class="ph-frame" style="aspect-ratio:16/10">
-            <span class="ph-box" style="display:grid;place-items:center;background:rgba(28,63,148,.06);color:var(--color-primary);font-size:2.75rem"><i class="fa-regular fa-newspaper" aria-hidden="true"></i></span>
+            <?php if (!empty($n['image'])): ?>
+              <img src="<?= e(media_url($n['image'])) ?>" alt="<?= e($n['title']) ?>" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;" />
+            <?php else: ?>
+              <span class="ph-box" style="display:grid;place-items:center;background:rgba(28,63,148,.06);color:var(--color-primary);font-size:2.75rem"><i class="fa-regular fa-newspaper" aria-hidden="true"></i></span>
+            <?php endif; ?>
             <span class="absolute left-4 bottom-4 z-10 rounded-sm bg-secondary px-3 py-1.5 text-center leading-none text-white"><strong class="block text-lg"><?= e($d) ?></strong><span class="text-xs"><?= e($mo) ?></span></span>
           </div>
           <div class="p-6">

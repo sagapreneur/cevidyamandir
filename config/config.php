@@ -25,14 +25,31 @@ if (APP_ENV === 'development') {
     error_reporting(E_ALL);
     ini_set('display_errors', '1');
 } else {
-    // Production: never display errors to visitors, but log them for diagnostics.
-    error_reporting(E_ALL);
+    error_reporting(0);
     ini_set('display_errors', '0');
-    ini_set('log_errors', '1');
-    $__logDir = dirname(__DIR__) . '/storage/logs';
-    if (is_dir($__logDir) && is_writable($__logDir)) {
-        ini_set('error_log', $__logDir . '/php-error.log');
-    }
+
+    // Friendly fallback page for uncaught errors (no blank screens in production).
+    $renderFatal = static function (): void {
+        if (headers_sent()) return;
+        http_response_code(500);
+        echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">'
+            . '<meta name="viewport" content="width=device-width, initial-scale=1">'
+            . '<title>Temporarily unavailable</title>'
+            . '<style>body{font-family:Poppins,system-ui,sans-serif;background:#f3f6fc;color:#14213d;'
+            . 'display:grid;place-items:center;min-height:100vh;margin:0;text-align:center}'
+            . '.b{max-width:460px;padding:40px}.b h1{font-size:22px;margin:0 0 10px}'
+            . '.b p{color:#5b6576}a{color:#1c3f94}</style></head><body><div class="b">'
+            . '<h1>We&rsquo;ll be right back</h1><p>The page is temporarily unavailable. '
+            . 'Please try again in a moment.</p><p><a href="./">Return to homepage</a></p>'
+            . '</div></body></html>';
+    };
+    set_exception_handler(static function ($e) use ($renderFatal) { $renderFatal(); });
+    register_shutdown_function(static function () use ($renderFatal) {
+        $err = error_get_last();
+        if ($err && in_array($err['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR], true)) {
+            $renderFatal();
+        }
+    });
 }
 
 // ---- Paths -------------------------------------------------------
@@ -43,6 +60,31 @@ define('STORAGE_PATH', ROOT_PATH . '/storage');
 define('UPLOAD_PATH', STORAGE_PATH . '/uploads');
 define('LOG_PATH', STORAGE_PATH . '/logs');
 define('VIEW_PATH', APP_PATH . '/Views');
+
+// ---- Load .env (KEY=VALUE) into the environment, if present ------
+(static function (): void {
+    $file = ROOT_PATH . '/.env';
+    if (!is_file($file)) {
+        return;
+    }
+    foreach (file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+        $line = trim($line);
+        if ($line === '' || $line[0] === '#') {
+            continue;
+        }
+        [$key, $value] = array_pad(explode('=', $line, 2), 2, '');
+        $key = trim($key);
+        $value = trim($value);
+        // strip surrounding quotes
+        if (strlen($value) >= 2 && ($value[0] === '"' || $value[0] === "'")) {
+            $value = substr($value, 1, -1);
+        }
+        if ($key !== '' && getenv($key) === false) {
+            putenv("{$key}={$value}");
+            $_ENV[$key] = $value;
+        }
+    }
+})();
 
 // ---- Base URL (auto-detected, works in root or sub-folder) -------
 $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';

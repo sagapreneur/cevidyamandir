@@ -19,9 +19,6 @@ import { initSlider } from "./modules/slider.js";
 import { initParallax } from "./modules/parallax.js";
 import { initBackToTop } from "./modules/backToTop.js";
 import { initHeroSlider } from "./modules/heroSlider.js";
-import { initNoticeCarousel } from "./modules/noticeCarousel.js";
-import { initDocumentCentre } from "./modules/documentCentre.js";
-import { initCalendarViewer } from "./modules/calendarViewer.js";
 
 const boot = () => {
   initStickyHeader();
@@ -39,9 +36,6 @@ const boot = () => {
   initParallax();
   initBackToTop();
   initHeroSlider();
-  initNoticeCarousel();
-  initDocumentCentre();
-  initCalendarViewer();
 };
 
 if (document.readyState === "loading") {
