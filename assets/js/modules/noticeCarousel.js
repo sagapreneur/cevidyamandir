@@ -19,6 +19,7 @@ export function initNoticeCarousel() {
     // dots
     const dots = [];
     if (dotsWrap) {
+      dotsWrap.innerHTML = "";
       slides.forEach((_, i) => {
         const b = document.createElement("button");
         b.type = "button";
@@ -49,6 +50,8 @@ export function initNoticeCarousel() {
       if (Math.abs(dx) > 40) go(index + (dx < 0 ? 1 : -1));
       x0 = null;
     });
+
+    go(0);
   });
 
   // Lightbox
